@@ -1,0 +1,20 @@
+{
+    "name": "pecode_test_task",
+    "version": "1.0.0",
+    "description": "Test task for Pecode company",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "keywords": [
+        "testtask"
+    ],
+    "author": "Hudymenko Yevhenii",
+    "license": "MIT",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "jsonwebtoken": "^9.0.2"
+    }
+}

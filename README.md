@@ -36,6 +36,15 @@ Update packages.
 npm i
 ```
 
+**Update db structure** from migrations file at prisma/migrations/20240524075158_current_ver/migration.sql **manually**
+
+(or use prisma)
+
+```bash
+npm i prisma --save-dev
+npx prisma migrate dev
+```
+
 Build JavaScript from TypeScript
 
 ```bash

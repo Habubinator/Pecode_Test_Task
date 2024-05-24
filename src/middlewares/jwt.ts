@@ -14,7 +14,7 @@ function checkToken(req: Request, res: Response, next: NextFunction): void {
             JWT_SECRET_KEY,
             (err: jwt.VerifyErrors | null, decoded: object) => {
                 if (err) {
-                    if ((err.name as string) === "TokenExpiredError") {
+                    if (err.name === "TokenExpiredError") {
                         res.locals.isExpired = true;
                     } else {
                         res.status(400).json({

@@ -3,9 +3,12 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import db from "../database/dbController.ts";
 import { Request, Response } from "express";
-import { emit } from "process";
 
-class AuthController {
+interface IJwt {
+    email: string;
+}
+
+class UserController {
     async registration(req: Request, res: Response) {
         try {
             const { username, email, password } = req.body;
@@ -100,16 +103,25 @@ class AuthController {
 
     async getOne(req: Request, res: Response) {
         try {
-            const { email } = req.body;
+            const { id } = req.body;
 
-            if (!email) {
+            const user: IJwt = res.locals.decoded;
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    message:
+                        "Error: Login token is expired or not provided. Access denied.",
+                });
+            }
+
+            if (!id) {
                 return res.status(400).json({
                     success: false,
                     error: "Can't find required body parameters",
                 });
             }
 
-            const candidate = await db.getUser(email);
+            const candidate = await db.getUserById(id);
             if (!candidate) {
                 return res.status(404).json({
                     success: false,
@@ -120,9 +132,7 @@ class AuthController {
             return res.json({
                 success: true,
                 data: {
-                    email: email,
-                    accessToken: generateAccessToken(email),
-                    refreshToken: candidate.refresh_token,
+                    candidate,
                 },
             });
         } catch (error) {
@@ -151,4 +161,4 @@ function generateRefreshToken(): string {
     );
 }
 
-export default new AuthController();
+export default new UserController();

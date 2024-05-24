@@ -22,4 +22,5 @@ model users {
 
 generator client {
   provider = "prisma-client-js"
+  engineType = "library"
 }

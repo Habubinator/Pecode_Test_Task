@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client/edge";
-import { emit } from "process";
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export interface IUser {
@@ -13,6 +12,14 @@ class DatabaseController {
     async getUser(email: string) {
         return await prisma.users.findUnique({
             where: { email: email },
+            include: { posts: true },
+        });
+    }
+
+    async getUserById(id: number) {
+        return await prisma.users.findUnique({
+            where: { id: id },
+            include: { posts: true },
         });
     }
 
@@ -36,6 +43,19 @@ class DatabaseController {
                 refresh_token: refreshToken,
             },
         });
+    }
+
+    async createPost(post: { created_by: number; post: string }) {
+        return await prisma.posts.create({
+            data: {
+                created_by: post.created_by,
+                post: post.post,
+            },
+        });
+    }
+
+    async getPosts() {
+        return await prisma.posts.findMany();
     }
 }
 

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import db from "../database/dbController.ts";
 import { Request, Response } from "express";
+import { emit } from "process";
 
 class AuthController {
     async registration(req: Request, res: Response) {
@@ -97,7 +98,40 @@ class AuthController {
         }
     }
 
-    async getOne() {}
+    async getOne(req: Request, res: Response) {
+        try {
+            const { email } = req.body;
+
+            if (!email) {
+                return res.status(400).json({
+                    success: false,
+                    error: "Can't find required body parameters",
+                });
+            }
+
+            const candidate = await db.getUser(email);
+            if (!candidate) {
+                return res.status(404).json({
+                    success: false,
+                    error: "Can't find user",
+                });
+            }
+
+            return res.json({
+                success: true,
+                data: {
+                    email: email,
+                    accessToken: generateAccessToken(email),
+                    refreshToken: candidate.refresh_token,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Error while getting user",
+            });
+        }
+    }
 }
 
 function generateAccessToken(email: string): string {

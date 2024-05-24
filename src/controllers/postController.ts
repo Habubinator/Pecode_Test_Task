@@ -1,4 +1,4 @@
-import db from "../database/dbController.ts";
+import db from "../database/dbController.js";
 import { Request, Response } from "express";
 
 interface IJwt {

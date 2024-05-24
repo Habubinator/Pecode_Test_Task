@@ -7,9 +7,9 @@ import express, {
 } from "express";
 
 import "dotenv/config";
-import userRouter from "./routes/userRouter.ts";
-import postRouter from "./routes/postRouter.ts";
-import checkToken from "./middlewares/jwt.ts";
+import userRouter from "./routes/userRouter.js";
+import postRouter from "./routes/postRouter.js";
+import checkToken from "./middlewares/jwt.js";
 
 const app: Application = express();
 app.use(checkToken);

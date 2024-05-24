@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import db from "../database/dbController.ts";
+import db from "../database/dbController.js";
 import { Request, Response } from "express";
 
 interface IJwt {

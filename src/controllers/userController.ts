@@ -19,6 +19,15 @@ class UserController {
                     error: "Can't find required body parameters",
                 });
             }
+            const emailRegEx =
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegEx.test(email)) {
+                return res.status(400).json({
+                    success: false,
+                    error: "User email is not valid",
+                });
+            }
 
             const candidate = await db.getUser(email);
             if (candidate) {
